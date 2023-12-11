@@ -124,6 +124,15 @@ def execute():
     plt.grid(True)
     st.pyplot(plt)
 
+    #top 10 game sales
+
+    st.markdown('## Top 10 Video Games by Sales in Selected Range')
+    top_10_games = df.loc[(df['Year'] >= start) & (df['Year'] <= end)].groupby('Name').sum().nlargest(10, 'Global_Sales')
+    top_10_games.reset_index(inplace=True)
+    fig = px.bar(top_10_games, x='Name', y='Global_Sales', labels={'Name': 'Game Name', 'Global_Sales': 'Global Sales'})
+    fig.update_layout(xaxis_title='Game Name', yaxis_title='Global Sales', title='Top 10 Video Games by Sales')
+    st.plotly_chart(fig, use_container_width=True)
+
 
 options = ['Home', 'Data', 'Execute']
 
